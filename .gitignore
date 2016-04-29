@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+*.log
+/api/node_modules
+/api/build
+/frontend/bower_components
+/frontend/node_modules
