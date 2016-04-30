@@ -11,4 +11,8 @@ angular.module('webDev').controller('LoginCtrl', function($scope, alert, auth) {
                 alert('warning', 'Something went wrong :(', err.message);
             });
     };
+
+    $scope.google = function(){
+      auth.googleAuth().then();
+    };
 });
