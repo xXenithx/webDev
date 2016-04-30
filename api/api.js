@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 passport.serializeUser(function(user, done) {
-    
+
     done(null, user.id);
 })
 
@@ -26,11 +26,12 @@ app.use(function(req, res, next) {
 })
 
 var strategyOptions = {
-    
+
     usernameField: 'email'
 };
 
 var loginStrategy = new LocalStrategy(strategyOptions, function(email, password, done) {
+
     var searchUser = {
         email: email
     };
@@ -46,6 +47,7 @@ var loginStrategy = new LocalStrategy(strategyOptions, function(email, password,
             });
         }
 
+
         user.comparePasswords(password, function(err, isMatch) {
             if (err) {
                 return done(err);
@@ -58,18 +60,35 @@ var loginStrategy = new LocalStrategy(strategyOptions, function(email, password,
 
             return done(null, user);
         });
-    })
+    });
 });
 
-var registerStrategy = new LocalStrategy(strategyOptions, function(email, password, done){
-    var newUser = new User({
-        email: email,
-        password: password
-    });
+var registerStrategy = new LocalStrategy(strategyOptions, function(email, password, done) {
 
-    newUser.save(function(err) {
-        done(null, newUser);
-    })
+    var searchUser = {
+        email: email
+    };
+
+    User.findOne(searchUser, function(err, user) {
+        if (err) {
+            return done(err);
+        }
+
+        if (user) {
+            return done(null, false, {
+                message: 'email already exists'
+            });
+        }
+
+        var newUser = new User({
+            email: email,
+            password: password
+        });
+
+        newUser.save(function(err) {
+            done(null, newUser);
+        })
+    });
 });
 
 passport.use('local-register', registerStrategy);
@@ -82,7 +101,7 @@ app.post('/register', passport.authenticate('local-register'), function(req, res
 })
 
 app.post('/login', passport.authenticate('local-login'), function(req, res) {
-    
+
     createSendToken(req.user, res);
 })
 
@@ -127,6 +146,6 @@ app.get('/jobs', function(req, res) {
 mongoose.connect('mongodb://localhost/webDev')
 
 var server = app.listen(3000, function() {
-    
+
     console.log('api listening on ', server.address().port)
 });
