@@ -6,6 +6,7 @@ var jwt = require('jwt-simple');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var request = require('request');
+var moment = require('moment');
 
 
 var app = express();
@@ -108,7 +109,8 @@ app.post('/login', passport.authenticate('local-login'), function(req, res) {
 
 function createSendToken(user, res) {
     var payload = {
-        sub: user.id
+        sub: user.id,
+        exp: moment().add(10, 'days').unix()
     }
 
     var token = jwt.encode(payload, "shhh...");
@@ -154,7 +156,7 @@ app.post('/auth/google', function(req, res) {
         redirect_uri: req.body.redirectUri,
         code: req.body.code,
         grant_type: 'authorization_code',
-        client_secret: 'Actzez94BLLwXtSTDu38MeXT',
+        client_secret: 'cNA6LgBsYiKAZW6bETNtMpeR',
     };
 
     console.log(req.body.code);

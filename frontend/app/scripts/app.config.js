@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $httpProvider) {
+angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $httpProvider,$authProvider,API_URL) {
 
     $urlRouterProvider.otherwise('/');
 
@@ -30,6 +30,11 @@ angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $ht
         url: '/login',
         templateUrl: '/views/login.html',
         controller: 'LoginCtrl'
+    });
+
+    $authProvider.google({
+        clientId: '722023897432-95ds2ebis60ps8cgr4fdo64lka5i2uui.apps.googleusercontent.com',
+        url: API_URL + 'auth/google'
     });
 
     $httpProvider.interceptors.push('authInterceptor');
