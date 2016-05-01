@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('webDev').service('auth', function($http, API_URL, authToken, $state, $window) {
+angular.module('webDev').service('auth', function($http, API_URL, authToken, $state, $window,$q) {
 
     function authSuccessful(res) {
         authToken.setToken(res.token);
@@ -36,6 +36,8 @@ angular.module('webDev').service('auth', function($http, API_URL, authToken, $st
         var url = 'https://accounts.google.com/o/oauth2/v2/auth?' + urlBuilder.join('&');
         var options = 'width=500, height=500, left=' + ($window.outerWidth - 500) / 2 + ', top=' + ($window.outerHeight) / 2.5;
 
+        var deferred = $q.defer();
+
         var popup = $window.open(url, '', options);
         $window.focus();
 
@@ -48,8 +50,12 @@ angular.module('webDev').service('auth', function($http, API_URL, authToken, $st
                     code: code,
                     clientId: clientId,
                     redirectUri: window.location.origin
+                }).success(function(jwt){
+                    authSuccessful(jwt);
+                    deferred.resolve(jwt);
                 });
             }
         });
+        return deferred.promise;
     };
 });
