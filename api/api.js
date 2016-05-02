@@ -6,7 +6,9 @@ var jwt = require('jwt-simple');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var request = require('request');
-var moment = require('moment');
+var facebookAuth = require('./services/facebookAuth.js');
+var createSendToken = require('./services/jwt.js');
+var config = require('./services/config.js');
 
 
 var app = express();
@@ -107,19 +109,7 @@ app.post('/login', passport.authenticate('local-login'), function(req, res) {
     createSendToken(req.user, res);
 })
 
-function createSendToken(user, res) {
-    var payload = {
-        sub: user.id,
-        exp: moment().add(10, 'days').unix()
-    }
-
-    var token = jwt.encode(payload, "shhh...");
-
-    res.status(200).send({
-        user: user.toJSON(),
-        token: token
-    })
-}
+app.post('/auth/facebook',facebookAuth);
 
 var jobs = [
     'Cook',
@@ -129,7 +119,7 @@ var jobs = [
 ];
 
 app.get('/jobs', function(req, res) {
-    if (!req.headers.authorization) {
+    if (!req.headers.authorization) { 
         return res.status(401).send({
             message: 'You are not authorized'
         });
@@ -156,10 +146,8 @@ app.post('/auth/google', function(req, res) {
         redirect_uri: req.body.redirectUri,
         code: req.body.code,
         grant_type: 'authorization_code',
-        client_secret: 'cNA6LgBsYiKAZW6bETNtMpeR',
+        client_secret: config.GOOGLE_SECRET,
     };
-
-    console.log(req.body.code);
 
     request.post(url, {
         json: true,
@@ -190,7 +178,6 @@ app.post('/auth/google', function(req, res) {
                     if (err) {
                         return next(err);
                     }
-
                     createSendToken(newUser, res);
                 })
             })

@@ -32,9 +32,17 @@ angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $ht
         controller: 'LoginCtrl'
     });
 
+    $authProvider.loginUrl = API_URL + 'login';
+    $authProvider.signupUrl = API_URL + 'register';
+
     $authProvider.google({
         clientId: '722023897432-95ds2ebis60ps8cgr4fdo64lka5i2uui.apps.googleusercontent.com',
         url: API_URL + 'auth/google'
+    });
+
+    $authProvider.facebook({
+        clientId: '276192156049705',
+        url: API_URL + 'auth/facebook'
     });
 
     $httpProvider.interceptors.push('authInterceptor');
