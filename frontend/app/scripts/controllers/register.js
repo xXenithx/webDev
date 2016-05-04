@@ -6,13 +6,18 @@ angular.module('webDev').controller('RegisterCtrl', function($scope, alert, $aut
         $auth.signup({
             email: $scope.email,
             password: $scope.password
-        })
-            .then(function(res) {
-                alert('success', 'Account Created!', 'Welcome, ' + res.data.user.email + '!');
+        }).then(function(res) {
+            alert('success', 'Account Created!', 'Welcome, ' + res.data.user.email + '!');
+            $auth.login({
+                email: $scope.email,
+                password: $scope.password
+            }).then(function() {
                 $state.go('main');
-            })
-            .catch(function(err) {
-                alert('warning', 'Something went wrong :(', err.message);
-            });
+            }).catch(handleError);
+        }).catch(handleError);
     };
+
+    function handleError(err) {
+        alert('warning', 'Something went wrong :(', err.message);
+    }
 });
