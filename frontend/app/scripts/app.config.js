@@ -32,8 +32,8 @@ angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $ht
         controller: 'LoginCtrl'
     });
 
-    $authProvider.loginUrl = API_URL + 'login';
-    $authProvider.signupUrl = API_URL + 'register';
+    $authProvider.loginUrl = API_URL + 'auth/login';
+    $authProvider.signupUrl = API_URL + 'auth/register';
 
     $authProvider.google({
         clientId: '722023897432-95ds2ebis60ps8cgr4fdo64lka5i2uui.apps.googleusercontent.com',
@@ -49,7 +49,7 @@ angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $ht
 
 })
 
-.constant('API_URL', 'http://localhost:3000/')
+.constant('API_URL', 'http://localhost:1337/')
 
 .run(function($window) {
     var params = $window.location.search.substring(1);
