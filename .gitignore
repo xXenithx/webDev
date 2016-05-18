@@ -9,7 +9,7 @@
 /api/build
 /frontend/bower_components
 /frontend/node_modules
-/.idea
+.idea/
 # Logs
 logs
 *.log
