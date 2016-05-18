@@ -9,9 +9,8 @@
 /api/build
 /frontend/bower_components
 /frontend/node_modules
-*.iws
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+.idea/workspace.xml
+.idea/tasks.xml
 
 # Logs
 logs
