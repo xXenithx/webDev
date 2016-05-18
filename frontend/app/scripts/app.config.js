@@ -42,7 +42,8 @@ angular.module('webDev').config(function($urlRouterProvider, $stateProvider, $ht
 
     $authProvider.facebook({
         clientId: '276192156049705',
-        url: API_URL + 'auth/facebook'
+        url: API_URL + 'auth/facebook',
+        scope: ['public_profile', 'email', 'user_about_me', 'user_birthday', 'user_location']
     });
 
     $httpProvider.interceptors.push('authInterceptor');
