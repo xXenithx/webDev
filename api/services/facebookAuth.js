@@ -30,7 +30,7 @@ module.exports = function(req, res) {
         var qsParams = {
             access_token: accessToken.access_token,
             expires: accessToken.expires,
-            fields: 'id, name, email, first_name,gender, picture, birthday, bio'
+            fields: 'id, name, email, first_name,gender, picture, birthday, bio, location'
         };
         console.log(accessToken);
 
