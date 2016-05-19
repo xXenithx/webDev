@@ -9,7 +9,9 @@
 /api/build
 /frontend/bower_components
 /frontend/node_modules
+.tmp
 .idea
+
 
 # Logs
 logs
